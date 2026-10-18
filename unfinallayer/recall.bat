@@ -1,7 +1,8 @@
 @echo off
+color D
+@echo [48;2;2;0;69m
 setlocal EnableDelayedExpansion
 :ask
-color D
 set /p "choice=Select your option. 'L' to load a .psff file, 'A' to add to a pre-existing .psff file, 'C' to create a .psff file (used for the names and pronouns of characters) and 'quote' to generate a quote. "
 if not %choice% == C (
 if not %choice% == L (
