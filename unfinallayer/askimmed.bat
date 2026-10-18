@@ -9,7 +9,7 @@ set /p "pronounAre=Enter present conjugation (e.g is/are) for this character's p
 set /p "pronounTheyre=Enter the equivalent to 'they're' when referring to this character. (all lowercase): "
 set /p "pronounWere=Enter the past conjugation (e.g was/were) for this character's pronouns. (all lowercase): "
 
-
+::set the hex values corresponding to the strings
 FOR /F "tokens=* USEBACKQ" %%F IN (`%~dp0convert.bat %name%`) DO (
   SET namehex=%%F
 )
@@ -37,12 +37,13 @@ FOR /F "tokens=* USEBACKQ" %%F IN (`%~dp0convert.bat %pronounTheyre%`) DO (
 FOR /F "tokens=* USEBACKQ" %%F IN (`%~dp0convert.bat %pronounWere%`) DO (
   SET pronounWerehex=%%F
 )
-
+::add said strings to mergedtemp.txt
  echo(%namehex%03%pronounTheyhex%03%pronounThemhex%03%pronounTheirhex%03%pronounTheirshex%03%pronounThemselfhex%03%pronounArehex%03%pronounTheyrehex%03%pronounWerehex%0304>>mergedtemp.txt
 set /p "lastgroup=Is this the last pronoun group?  (y/n) "
 if %lastgroup%==n call %~dp0\pronouns.bat
 set /p "optional=Do you want to include gender, sexual orientation and romantic orientation?  (y/n) "
 if %optional%==y call %~dp0\optional.bat
+::add character data end character
 if %optional%==n echo(05>>mergedtemp.txt
 set /p "end=Will you add another character? (y/n) " 
 if %end%==y call %~dp0\askimmed.bat
