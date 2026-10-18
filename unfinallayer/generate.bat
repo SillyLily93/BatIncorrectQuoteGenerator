@@ -11,6 +11,7 @@ set /a quotecount=2958
 set /a charc=%charactercount%
 set /a ARR=%RANDOM% * %charc% / 32768 + 1
 set /a AR=%ARR%
+::setting the characters and their pronoun groups
 set /a "AGR=(1+%RANDOM% %% !character%AR%groupcount!-1)+1"
 if not [%shuffle%]==[y] (
 if %charc% EQU 1 (
@@ -60,14 +61,14 @@ set /a "selectedquoteID=(1+%RANDOM% %% %quotecount%-1)+1"
 
 
 
-
+::to make sure no character is picked twice, it first needs to make sure it doesn't pick more characters than are in the file
 if not %charc% GEQ 2 set BR=0
 if not %charc% GEQ 3 set CR=0
 if not %charc% GEQ 4 set DR=0
 if not %charc% GEQ 5 set ER=0
 if not %charc% GEQ 6 set FR=0
 
-
+::make all caps and first letter capitalized versions of every variable
 call %~dp0concrete.bat !x1group1character%AR%! x1group1character%AR%
 call %~dp0concrete.bat !x2group%AGR%character%AR%! x2group%AGR%character%AR%
 call %~dp0concrete.bat !x3group%AGR%character%AR%! x3group%AGR%character%AR%
@@ -138,13 +139,14 @@ call %~dp0concrete.bat !x8group%BGR%character%BR%! x8group%BGR%character%BR%
 call %~dp0concrete.bat !x9group%BGR%character%BR%! x9group%BGR%character%BR%
 )
 
-
+::make sure the characters' pronoun groups are in range
 if 0%AGR% GTR 0!character%AR%groupcount! goto :setting
 if 0%BGR% GTR 0!character%BR%groupcount! goto :setting
 if 0%CGR% GTR 0!character%CR%groupcount! goto :setting
 if 0%DGR% GTR 0!character%DR%groupcount! goto :setting
 if 0%EGR% GTR 0!character%ER%groupcount! goto :setting
 if 0%FGR% GTR 0!character%FR%groupcount! goto :setting
+::check for duplicate character choices
 if [%AR%] == [%BR%] goto :setting
 if [%AR%] == [%CR%] goto :setting
 if [%AR%] == [%DR%] goto :setting
@@ -168,7 +170,7 @@ if [%DR%] == [%FR%] goto :setting
 if %ER% NEQ 0 (
 if [%ER%] == [%FR%] goto :setting
 )
-
+::echo the quote
 echo -----
 call %~dp0untemp.bat %selectedquoteID%
 echo -----
